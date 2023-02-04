@@ -1,7 +1,7 @@
 import { useWeb3 } from '@components/providers';
 import Link from 'next/link';
 import { Button } from '@components/ui/common';
-import { useAccount } from '@components/web3/hooks/useAccount';
+import { useAccount } from '@components/hooks/web3/useAccount';
 
 export default function Navbar() {
   const { connect, isLoading, isWeb3Loaded } = useWeb3();
@@ -24,7 +24,7 @@ export default function Navbar() {
               </Link>
               <Link
                 legacyBehavior
-                href='/'>
+                href='/marketplace'>
                 <a className='font-medium mr-8 text-gray-500 hover:text-gray-900'>
                   Marketplace
                 </a>
@@ -56,7 +56,9 @@ export default function Navbar() {
                   <Button
                     hoverable={false}
                     className='cursor-default'>
-                    Hi there {account.isAdmin && 'Admin'}
+                    {`${account.data.substr(0, 4)}...${account.data.substr(
+                      account.data.length - 4
+                    )}`}
                   </Button>
                 ) : (
                   <Button onClick={connect}>Connect</Button>
@@ -73,13 +75,13 @@ export default function Navbar() {
           </div>
         </nav>
       </div>
-      {account.data && (
+      {/* {account.data && (
         <div className='flex justify-end pt-1 sm:px-6 lg:px-8'>
           <div className='text-white bg-indigo-600 rounded-md p-2'>
             {account.data}
           </div>
         </div>
-      )}
+      )} */}
     </section>
   );
 }
