@@ -56,7 +56,7 @@ export default function Navbar() {
                   <Button
                     hoverable={false}
                     className='cursor-default'>
-                    Wallet Connected
+                    Hi there {account.isAdmin && 'Admin'}
                   </Button>
                 ) : (
                   <Button onClick={connect}>Connect</Button>
