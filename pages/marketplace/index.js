@@ -15,11 +15,12 @@ export default function Marketplace({ courses }) {
         {network.data}
         <WalletBar
           address={account.data}
-          network={network.data}
+          network={{
+            data: network.data,
+            target: network.target,
+            isSupported: network.isSupported,
+          }}
         />
-        "Current" {`${network.data}`}
-        "Target" {`${network.target}`}
-        "Is supported" {`${network.isSupported}`}
       </div>
       <CourseList courses={courses}>
         {(course) => (
