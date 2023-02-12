@@ -4,7 +4,7 @@ import { Button } from '@components/ui/common';
 import { useAccount } from '@components/hooks/web3';
 
 export default function Navbar() {
-  const { connect, isLoading, isWeb3Loaded } = useWeb3();
+  const { connect, isLoading, web3 } = useWeb3();
   const { account } = useAccount();
 
   return (
@@ -51,7 +51,7 @@ export default function Navbar() {
                   onClick={connect}>
                   Loading...
                 </Button>
-              ) : isWeb3Loaded ? (
+              ) : web3 != null ? (
                 account.data ? (
                   <Button
                     hoverable={false}
