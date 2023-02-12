@@ -2,8 +2,7 @@ import { CourseCard, CourseList } from '@components/ui/course';
 import { BaseLayout } from '@components/ui/layout';
 import { getAllCourses } from '@content/courses/fetcher';
 import { WalletBar } from '@components/ui/web3';
-import { useAccount } from '@components/hooks/web3/useAccount';
-import { useNetwork } from '@components/hooks/web3/useNetwork';
+import { useAccount, useNetwork } from '@components/hooks/web3';
 
 export default function Marketplace({ courses }) {
   const { account } = useAccount();
@@ -12,7 +11,6 @@ export default function Marketplace({ courses }) {
   return (
     <>
       <div className='py-4'>
-        {network.data}
         <WalletBar
           address={account.data}
           network={{
