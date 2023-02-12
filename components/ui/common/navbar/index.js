@@ -4,7 +4,7 @@ import { Button } from '@components/ui/common';
 import { useAccount } from '@components/hooks/web3';
 
 export default function Navbar() {
-  const { connect, isLoading, web3 } = useWeb3();
+  const { connect, isLoading, requireInstall } = useWeb3();
   const { account } = useAccount();
 
   return (
@@ -51,25 +51,23 @@ export default function Navbar() {
                   onClick={connect}>
                   Loading...
                 </Button>
-              ) : web3 != null ? (
-                account.data ? (
-                  <Button
-                    hoverable={false}
-                    className='cursor-default'>
-                    {`${account.data.substr(0, 4)}...${account.data.substr(
-                      account.data.length - 4
-                    )}`}
-                  </Button>
-                ) : (
-                  <Button onClick={connect}>Connect</Button>
-                )
-              ) : (
+              ) : account.data ? (
+                <Button
+                  hoverable={false}
+                  className='cursor-default'>
+                  {`${account.data.substr(0, 4)}...${account.data.substr(
+                    account.data.length - 4
+                  )}`}
+                </Button>
+              ) : requireInstall ? (
                 <Button
                   onClick={() =>
                     window.open('https://metamask.io/download/', '_blank')
                   }>
                   Install Metamask
                 </Button>
+              ) : (
+                <Button onClick={connect}>Connect</Button>
               )}
             </div>
           </div>
