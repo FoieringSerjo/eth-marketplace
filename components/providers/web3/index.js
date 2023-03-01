@@ -66,6 +66,6 @@ export function useWeb3() {
 export function useHooks(callback) {
   const { hooks } = useWeb3();
 
-  //* return callback because don't know exactly which hook to return - logic implemented in components/web3/hooks --> useAccount
+  //Note - return callback because don't know exactly which hook to return - logic implemented in components/web3/hooks --> useAccount
   return callback(hooks);
 }

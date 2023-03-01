@@ -17,7 +17,7 @@ export const handler = (web3, provider) => () => {
     }
   );
 
-  //* Used before SWR library
+  //Note - Used before SWR library
   // useEffect(() => {
   //   const getAccount = async () => {
   //     const accounts = await web3.eth.getAccounts();

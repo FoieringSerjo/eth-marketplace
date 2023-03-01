@@ -5,8 +5,10 @@ import { WalletBar } from '@components/ui/web3';
 import { useAccount, useNetwork } from '@components/hooks/web3';
 import { Button } from '@components/ui/common';
 import { OrderModal } from '@components/ui/order';
+import { useState } from 'react';
 
 export default function Marketplace({ courses }) {
+  const [selectedCourse, setSelectedCourse] = useState(null);
   const { account } = useAccount();
   const { network } = useNetwork();
 
@@ -23,6 +25,7 @@ export default function Marketplace({ courses }) {
           }}
         />
       </div>
+      //Note - courses iteration
       <CourseList courses={courses}>
         {(course) => (
           <CourseCard
@@ -30,13 +33,23 @@ export default function Marketplace({ courses }) {
             course={course}
             Footer={() => (
               <div className='mt-4'>
-                <Button variant='lightPurple'>Purchase</Button>
+                <Button
+                  onClick={() => setSelectedCourse(course)}
+                  variant='lightPurple'>
+                  Purchase
+                </Button>
               </div>
             )}
           />
         )}
       </CourseList>
-      <OrderModal />
+      {selectedCourse && (
+        <OrderModal
+          course={selectedCourse}
+          //Note - Can retrieve in OrderModal as a prop
+          onClose={() => setSelectedCourse(null)}
+        />
+      )}
     </>
   );
 }
