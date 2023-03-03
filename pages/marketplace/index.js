@@ -26,7 +26,10 @@ export default function Marketplace({ courses }) {
             hasFinishedFirstFetch: network.hasFinishedFirstFetch,
           }}
         />
-        <EthRates eth={eth.data} />
+        <EthRates
+          eth={eth.data}
+          ethPerItem={eth.perItem}
+        />
       </div>
       //Note - courses iteration
       <CourseList courses={courses}>
