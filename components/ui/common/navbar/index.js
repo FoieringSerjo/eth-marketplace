@@ -1,6 +1,5 @@
 import { useWeb3 } from '@components/providers';
-import Link from 'next/link';
-import { Button } from '@components/ui/common';
+import { Button, ActiveLink } from '@components/ui/common';
 import { useAccount } from '@components/hooks/web3';
 
 export default function Navbar() {
@@ -15,36 +14,28 @@ export default function Navbar() {
           aria-label='Global'>
           <div className='flex justify-between items-center'>
             <div>
-              <Link
-                legacyBehavior
-                href='/'>
+              <ActiveLink href='/'>
                 <a className='font-medium mr-8 text-gray-500 hover:text-gray-900'>
                   Home
                 </a>
-              </Link>
-              <Link
-                legacyBehavior
-                href='/marketplace'>
+              </ActiveLink>
+              <ActiveLink href='/marketplace'>
                 <a className='font-medium mr-8 text-gray-500 hover:text-gray-900'>
                   Marketplace
                 </a>
-              </Link>
-              <Link
-                legacyBehavior
-                href='/'>
+              </ActiveLink>
+              <ActiveLink href='/blogs'>
                 <a className='font-medium mr-8 text-gray-500 hover:text-gray-900'>
                   Blogs
                 </a>
-              </Link>
+              </ActiveLink>
             </div>
             <div>
-              <Link
-                legacyBehavior
-                href='/'>
+              <ActiveLink href='/wishlist'>
                 <a className='font-medium mr-8 text-gray-500 hover:text-gray-900'>
-                  WhishList
+                  Wishlist
                 </a>
-              </Link>
+              </ActiveLink>
               {isLoading ? (
                 <Button
                   disabled={true}
