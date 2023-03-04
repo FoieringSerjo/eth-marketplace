@@ -1,18 +1,29 @@
+import { useEthPrice } from '@components/hooks/useEthPrice';
 import { Modal, Button } from '@components/ui/common';
 import { useEffect, useState } from 'react';
 
+const defaultOrder = {
+  price: '',
+  email: '',
+  confirmationEmail: '',
+};
+
 export default function OrderModal({ course, onClose }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [order, setOrder] = useState(defaultOrder);
+  const { eth } = useEthPrice();
 
   //* Need to invalidate other wise the state will not be changed
   useEffect(() => {
     if (!!course) {
       setIsOpen(true);
+      setOrder({ ...defaultOrder, price: eth.perItem });
     }
   }, [course]);
 
   const closeModal = () => {
     setIsOpen(false);
+    setOrder(defaultOrder);
     onClose();
   };
 
@@ -37,18 +48,33 @@ export default function OrderModal({ course, onClose }) {
                         className='form-checkbox'
                       />
                     </label>
-                    <span>Adjust Price - only when the price is not correct</span>
+                    <span>
+                      Adjust Price - only when the price is not correct
+                    </span>
                   </div>
                 </div>
                 <input
+                  value={order.price}
+                  onChange={(event) => {
+                    const value = event.target.value;
+
+                    if (isNaN(value)) {
+                      return;
+                    }
+                    setOrder({
+                      ...order,
+                      price: value,
+                    });
+                  }}
                   type='text'
                   name='price'
                   id='price'
                   className='disabled:opacity-50 w-80 mb-1 focus:ring-indigo-500 shadow-md focus:border-indigo-500 block pl-7 p-4 sm:text-sm border-gray-300 rounded-md'
                 />
                 <p className='text-xs text-gray-700'>
-                  Price will be verified at the time of the order. If the price will
-                  be lower, order can be declined (+- 2% slipage is allowed)
+                  Price will be verified at the time of the order. If the
+                  price will be lower, order can be declined (+- 2% slipage
+                  is allowed)
                 </p>
               </div>
               <div className='mt-2 relative rounded-md'>
@@ -63,8 +89,9 @@ export default function OrderModal({ course, onClose }) {
                   placeholder='x@y.com'
                 />
                 <p className='text-xs text-gray-700 mt-1'>
-                  It&apos;s important to fill a correct email, otherwise the order
-                  cannot be verified. We are not storing your email anywhere
+                  It&apos;s important to fill a correct email, otherwise
+                  the order cannot be verified. We are not storing your
+                  email anywhere
                 </p>
               </div>
               <div className='my-2 relative rounded-md'>
@@ -87,9 +114,9 @@ export default function OrderModal({ course, onClose }) {
                   />
                 </label>
                 <span>
-                  I accept Foiering &apos;terms of service&apos; and I agree that my
-                  order can be rejected in the case data provided above are not
-                  correct
+                  I accept Foiering &apos;terms of service&apos; and I
+                  agree that my order can be rejected in the case data
+                  provided above are not correct
                 </span>
               </div>
             </div>
