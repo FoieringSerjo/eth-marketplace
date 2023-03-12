@@ -9,11 +9,15 @@ contract Marketplace {
     }
 
     // mapping of the courseHash to Course data
-    mapping(bytes32 => Course) private ownedCourse;
+    mapping(bytes32 => Course) private ownedCourses;
     // mapping o courseID to courseHash
     mapping(uint => bytes32) private ownedCourseHash;
     // number of all courses + id of the course
     uint private totalOwnedCourses;
+
+    //Note - the three lines will provide the error message that described
+    /// Course has already a Owner
+    error CourseHasOwner();
 
     struct Course {
         uint id; //32 bytes
@@ -38,10 +42,16 @@ contract Marketplace {
          */
 
         bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
+
+        if (hasCourseOwnership(courseHash)) {
+            revert CourseHasOwner();
+        }
+
         uint id = totalOwnedCourses++;
 
+        // TODO:1 Currently the courses are overriden - id changes but the hash is the same
         ownedCourseHash[id] = courseHash;
-        ownedCourse[courseHash] = Course({
+        ownedCourses[courseHash] = Course({
             id: id,
             price: msg.value,
             proof: proof,
@@ -61,6 +71,13 @@ contract Marketplace {
     function getCourseByHash(
         bytes32 courseHash
     ) external view returns (Course memory) {
-        return ownedCourse[courseHash];
+        return ownedCourses[courseHash];
+    }
+
+    //FIXED: TODO1
+    function hasCourseOwnership(
+        bytes32 courseHash
+    ) private view returns (bool) {
+        return ownedCourses[courseHash].owner == msg.sender;
     }
 }
