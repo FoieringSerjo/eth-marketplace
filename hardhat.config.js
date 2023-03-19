@@ -5,7 +5,7 @@ require('@nomiclabs/hardhat-ethers');
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: {
-    version: '0.8.9',
+    version: '0.8.4',
     settings: {
       optimizer: {
         enabled: true,
@@ -13,6 +13,7 @@ module.exports = {
       },
     },
   },
+  defaultNetwork: 'sepolia',
   networks: {
     sepolia: {
       url: 'https://sepolia.infura.io/v3/3cedf15027134b1d8bfd53873f85edcc',

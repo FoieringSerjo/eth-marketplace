@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.4;
 
 contract Marketplace {
     enum State {
@@ -15,9 +15,26 @@ contract Marketplace {
     // number of all courses + id of the course
     uint private totalOwnedCourses;
 
+    address payable private owner;
+
+    //Note - Constructor executed during the contract deployment
+    constructor() {
+        setContractOwner(msg.sender);
+    }
+
     //Note - the three lines will provide the error message that described
     /// Course has already a Owner
     error CourseHasOwner();
+
+    ///Only Owner has an access!
+    error OnlyOwner();
+
+    modifier onlyOwner() {
+        if (msg.sender != getContractOwner()) {
+            revert OnlyOwner();
+        }
+        _;
+    }
 
     struct Course {
         uint id; //32 bytes
@@ -49,7 +66,7 @@ contract Marketplace {
 
         uint id = totalOwnedCourses++;
 
-        // TODO:1 Currently the courses are overriden - id changes but the hash is the same
+        //TODO-1: Currently the courses are overriden - id changes but the hash is the same
         ownedCourseHash[id] = courseHash;
         ownedCourses[courseHash] = Course({
             id: id,
@@ -58,6 +75,10 @@ contract Marketplace {
             owner: msg.sender,
             state: State.Purchased
         });
+    }
+
+    function transferOwnership(address newOwner) external onlyOwner {
+        setContractOwner(newOwner);
     }
 
     function getCourseCount() external view returns (uint) {
@@ -74,7 +95,15 @@ contract Marketplace {
         return ownedCourses[courseHash];
     }
 
-    //FIXED: TODO1
+    function getContractOwner() public view returns (address) {
+        return owner;
+    }
+
+    function setContractOwner(address newOwner) private {
+        owner = payable(newOwner);
+    }
+
+    //FIXED: TODO-1
     function hasCourseOwnership(
         bytes32 courseHash
     ) private view returns (bool) {
